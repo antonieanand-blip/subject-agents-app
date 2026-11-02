@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Subject Agents</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Manrope:wght@400;600;800&display=swap');
+body{margin:0}
+button,input{font-family:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid #1B2430;outline-offset:2px}
+</style>
+</helmet>
+<header style="background: #FFFFFF; border-bottom: 3px solid #FFD23F; font-family: 'Manrope', system-ui, sans-serif; color: #1B2430">
+<div style="max-width: 1100px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column">
+<span style="font-family: 'Fredoka', system-ui, sans-serif; font-size: 26px; font-weight: 700; color: #C2185B">ABC After School Program</span>
+<span style="font-size: 13px; color: #4B5563">Enrichment beyond the classroom</span>
+</div>
+<span style="font-size: 14px; font-weight: 800">Call us: 893xxx3463</span>
+</div>
+<nav aria-label="Main" style="max-width: 1100px; margin: 0 auto; padding: 0 24px 12px; display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{navItems}}" as="n" hint-placeholder-count="5">
+<button type="button" onClick="{{n.go}}" aria-current="{{n.on}}" style="{{n.style}}">{{n.label}}</button>
+</sc-for>
+</nav>
+<sc-if value="{{showProgNav}}" hint-placeholder-val="{{ false }}">
+<div role="tablist" aria-label="Our programs" style="max-width: 1100px; margin: 0 auto; padding: 0 24px 14px; display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{progTabs}}" as="t" hint-placeholder-count="2">
+<button type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.go}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+</header>
+<sc-if value="{{showHome}}" hint-placeholder-val="{{ true }}">
+<div style="min-height: 820px; box-sizing: border-box; background: #FFF8E1; color: #1B2430; font-family: 'Manrope', system-ui, sans-serif">
+
+<section style="background: #FFD23F; padding: 48px 32px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 40px">
+<div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 20px">
+<h1 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 52px; line-height: 1.05; font-weight: 700">Learning that feels like play</h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.5">A friendly AI tutor for every subject, built around the Class 8 curriculum. Learn a lesson, ask questions, then test yourself.</p>
+<button type="button" onClick="{{start}}" style="align-self: flex-start; min-height: 52px; padding: 0 32px; border-radius: 26px; border: 0; background: #1B2430; color: #FFFFFF; font-size: 17px; font-weight: 800; cursor: pointer">Start learning</button>
+</div>
+<div aria-hidden="true" style="flex: 1 1 320px; background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 12px; border: 3px solid #1B2430">
+<div style="align-self: flex-start; max-width: 85%; background: #DDE7FF; padding: 12px 16px; border-radius: 4px 18px 18px 18px; font-size: 15px">Hi, I am Euler. Let us solve 2x + 3 = 11 together.</div>
+<div style="align-self: flex-end; max-width: 85%; background: #1B2430; color: #FFFFFF; padding: 12px 16px; border-radius: 18px 4px 18px 18px; font-size: 15px">Do I subtract 3 first?</div>
+<div style="align-self: flex-start; max-width: 85%; background: #DDE7FF; padding: 12px 16px; border-radius: 4px 18px 18px 18px; font-size: 15px">Yes! Now we have 2x = 8. What is x?</div>
+</div>
+</div>
+</section>
+<section style="max-width: 1100px; margin: 0 auto; padding: 48px 32px 24px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 34px; font-weight: 700">Meet your subject tutors</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<sc-for list="{{subjects}}" as="s" hint-placeholder-count="5">
+<button type="button" onClick="{{s.pick}}" style="flex: 1 1 190px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 20px; border-radius: 24px; border: 3px solid #1B2430; background: #FFFFFF; color: #1B2430; text-align: left; cursor: pointer">
+<span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-family: 'Fredoka', system-ui, sans-serif; font-weight: 700; font-size: 26px; background: {{s.color}}">{{s.initial}}</span>
+<span style="font-family: 'Fredoka', system-ui, sans-serif; font-size: 22px; font-weight: 700">{{s.name}}</span>
+<span style="font-size: 14px; color: #4B5563">with {{s.agent}}</span>
+<span style="font-size: 14px; line-height: 1.4">{{s.blurb}}</span>
+</button>
+</sc-for>
+</div>
+</section>
+<section style="max-width: 1100px; margin: 0 auto; padding: 24px 32px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 34px; font-weight: 700">How it works</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 240px; background: #FF8A7A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Fredoka', system-ui, sans-serif; font-size: 32px; font-weight: 700">1</span><strong style="font-size: 18px">Pick a subject</strong><span style="font-size: 15px; line-height: 1.45">Each tutor teaches only one subject, so answers stay focused.</span></div>
+<div style="flex: 1 1 240px; background: #7FD8BE; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Fredoka', system-ui, sans-serif; font-size: 32px; font-weight: 700">2</span><strong style="font-size: 18px">Learn the lesson</strong><span style="font-size: 15px; line-height: 1.45">Read objectives and detailed lessons, then ask your tutor anything.</span></div>
+<div style="flex: 1 1 240px; background: #A9C2FF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Fredoka', system-ui, sans-serif; font-size: 32px; font-weight: 700">3</span><strong style="font-size: 18px">Test yourself</strong><span style="font-size: 15px; line-height: 1.45">Quizzes, fill in the blanks, true or false, written answers and diagrams.</span></div>
+</div>
+</section>
+<footer style="background: #1B2430; color: #FFFFFF; padding: 32px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px">
+<p style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 26px; font-weight: 700">Teachers can add their own lesson materials for every tutor.</p>
+<button type="button" onClick="{{start}}" style="min-height: 48px; padding: 0 28px; border-radius: 24px; border: 0; background: #FFD23F; color: #1B2430; font-size: 16px; font-weight: 800; cursor: pointer">Start learning</button>
+</footer>
+</div>
+</sc-if>
+<sc-if value="{{showAbout}}" hint-placeholder-val="{{ false }}">
+<div style="min-height: 640px; box-sizing: border-box; background: #FFF8E1; padding: 40px 24px; font-family: 'Manrope', system-ui, sans-serif; color: #1B2430">
+<div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 38px; font-weight: 700">About us</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6">ABC After School Program gives children in K to Grade 8 a safe, friendly place to learn and play once the school day ends. We offer daily care, academic support and enrichment activities that go beyond the classroom.</p>
+<article style="background: #FFFFFF; border: 3px solid #1B2430; border-radius: 24px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 24px">Child safety</h3><p style="margin: 0; font-size: 15px; line-height: 1.55">Every child is signed in and out by an approved adult. Our staff are background checked and trained in first aid, and activity spaces are supervised at all times.</p></article>
+<article style="background: #FFFFFF; border: 3px solid #1B2430; border-radius: 24px; padding: 20px 24px; display: flex; flex-direction: column; gap: 8px"><h3 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 24px">Our staff</h3><p style="margin: 0; font-size: 15px; line-height: 1.55">Our team includes qualified teachers and activity leaders who help with homework, run projects and make learning fun.</p></article>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showWinter}}" hint-placeholder-val="{{ false }}">
+<div style="min-height: 640px; box-sizing: border-box; background: #FFF8E1; padding: 40px 24px; font-family: 'Manrope', system-ui, sans-serif; color: #1B2430">
+<div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 38px; font-weight: 700">Winter Break</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6">Supervised full days while school is closed. Children enjoy science experiments, art, reading circles, outdoor games and a little revision, so learning keeps going through the holidays. Open to K to Grade 8.</p>
+<button type="button" onClick="{{goRegister}}" style="align-self: flex-start; min-height: 48px; padding: 0 28px; border-radius: 24px; border: 0; background: #1B2430; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer">Register now</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showParents}}" hint-placeholder-val="{{ false }}">
+<div style="min-height: 640px; box-sizing: border-box; background: #FFF8E1; padding: 40px 24px; font-family: 'Manrope', system-ui, sans-serif; color: #1B2430">
+<div style="max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 38px; font-weight: 700">Parents</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.55">Questions about pick-up, fees or what your child is learning? Send us a message, or call 893xxx3463 or email info@mysite.com.</p>
+<sc-if value="{{showFormP}}" hint-placeholder-val="{{ true }}">
+<label for="pn" style="font-size: 14px; font-weight: 600">Your name</label>
+<input id="pn" type="text" value="{{f_name}}" onInput="{{on_name}}" style="min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<label for="pe" style="font-size: 14px; font-weight: 600">Email</label>
+<input id="pe" type="text" value="{{f_email}}" onInput="{{on_email}}" style="min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<label for="pm" style="font-size: 14px; font-weight: 600">Message</label>
+<textarea id="pm" rows="4" value="{{f_msg}}" onInput="{{on_msg}}" style="box-sizing: border-box; padding: 12px 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px; font-family: inherit; resize: vertical"></textarea>
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px; font-weight: 800; color: #B3261E">{{err}}</p></sc-if>
+<button type="button" onClick="{{sendP}}" style="align-self: flex-start; min-height: 48px; padding: 0 28px; border-radius: 24px; border: 0; background: #1B2430; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer">Send message</button>
+</sc-if>
+<sc-if value="{{showThanksP}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; background: #7FD8BE; border-radius: 16px; padding: 16px 20px; font-size: 16px; font-weight: 800">Thank you. We have your message and will reply soon.</p>
+</sc-if>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showRegister}}" hint-placeholder-val="{{ false }}">
+<div style="min-height: 640px; box-sizing: border-box; background: #FFF8E1; padding: 40px 24px; font-family: 'Manrope', system-ui, sans-serif; color: #1B2430">
+<div style="max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-family: 'Fredoka', system-ui, sans-serif; font-size: 38px; font-weight: 700">Register</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.55">Sign your child up for a program. We will confirm by email.</p>
+<sc-if value="{{showFormR}}" hint-placeholder-val="{{ true }}">
+<label for="rc" style="font-size: 14px; font-weight: 600">Child name</label>
+<input id="rc" type="text" value="{{f_child}}" onInput="{{on_child}}" style="min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<label for="rg" style="font-size: 14px; font-weight: 600">Grade</label>
+<select id="rg" value="{{f_grade}}" onChange="{{on_grade}}" style="min-height: 44px; box-sizing: border-box; padding: 0 12px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px; background: #FFFFFF"><option value="">Choose a grade</option><option value="K">K</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option></select>
+<label for="rp" style="font-size: 14px; font-weight: 600">Program</label>
+<select id="rp" value="{{f_program}}" onChange="{{on_program}}" style="min-height: 44px; box-sizing: border-box; padding: 0 12px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px; background: #FFFFFF"><option value="">Choose a program</option><option value="Study Room">Study Room</option><option value="Winter Break">Winter Break</option></select>
+<label for="rr" style="font-size: 14px; font-weight: 600">Parent email</label>
+<input id="rr" type="text" value="{{f_pemail}}" onInput="{{on_pemail}}" style="min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; font-size: 14px; font-weight: 800; color: #B3261E">{{err}}</p></sc-if>
+<button type="button" onClick="{{sendR}}" style="align-self: flex-start; min-height: 48px; padding: 0 28px; border-radius: 24px; border: 0; background: #1B2430; color: #FFFFFF; font-size: 16px; font-weight: 800; cursor: pointer">Register</button>
+</sc-if>
+<sc-if value="{{showThanksR}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; background: #7FD8BE; border-radius: 16px; padding: 16px 20px; font-size: 16px; font-weight: 800">Thank you. Your registration has been received.</p>
+</sc-if>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showApp}}" hint-placeholder-val="{{ false }}">
+<div style="min-height: 820px; box-sizing: border-box; background: #F3F5F8; color: #1B2430; font-family: 'Manrope', system-ui, sans-serif; padding: 32px 24px">
+<div style="max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+<header style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px">
+<div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+<button type="button" onClick="{{goHome}}" style="min-height: 44px; padding: 0 18px; border-radius: 22px; border: 2px solid #1B2430; background: #FFD23F; color: #1B2430; font-size: 14px; font-weight: 800; cursor: pointer">Home</button>
+<h1 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em">StudyRoom</h1>
+</div>
+<p style="margin: 0; font-size: 15px; color: #4B5563">One agent per subject, each built to teach only that subject.</p>
+</header>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<nav aria-label="Subjects" style="flex: 1 1 260px; max-width: 100%; display: flex; flex-direction: column; gap: 12px">
+<sc-for list="{{subjects}}" as="s" hint-placeholder-count="4">
+<button type="button" onClick="{{s.pick}}" aria-pressed="{{s.pressed}}" style="{{s.style}}">
+<span aria-hidden="true" style="width: 44px; height: 44px; flex: 0 0 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800; font-size: 20px; background: {{s.color}}">{{s.initial}}</span>
+<span style="display: flex; flex-direction: column; gap: 2px; text-align: left">
+<span style="font-size: 16px; font-weight: 800">{{s.name}}</span>
+<span style="font-size: 13px; color: #4B5563">Agent: {{s.agent}}</span>
+</span>
+</button>
+</sc-for>
+</nav>
+<main style="flex: 999 1 520px; min-width: 0; background: #FFFFFF; border-radius: 20px; border: 1px solid #DDE2EA; display: flex; flex-direction: column; overflow: hidden">
+<div style="display: flex; align-items: center; gap: 14px; padding: 18px 24px; background: {{accent}}; color: #FFFFFF">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 800">{{agent}}, your {{name}} tutor</h2>
+<p style="margin: 0; font-size: 14px">{{blurb}}</p>
+</div>
+</div>
+<sc-if value="{{showTabs}}" hint-placeholder-val="{{ false }}">
+<div role="tablist" aria-label="Subject sections" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 24px; background: #F8F9FB; border-bottom: 1px solid #DDE2EA">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+<button type="button" role="tab" aria-selected="{{t.on}}" onClick="{{t.go}}" style="{{t.style}}">{{t.label}}</button>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{showObj}}" hint-placeholder-val="{{ false }}">
+<div role="tabpanel" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; min-height: 400px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 800">Learning Objectives</h3>
+<p style="margin: 0; font-size: 15px; color: #4B5563">By the end of this unit you will be able to:</p>
+<ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5">
+<sc-for list="{{objectives}}" as="o" hint-placeholder-count="3">
+<li>{{o}}</li>
+</sc-for>
+</ol>
+</div>
+</sc-if>
+<sc-if value="{{showLessons}}" hint-placeholder-val="{{ false }}">
+<div role="tabpanel" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; min-height: 400px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 800">Detailed lessons</h3>
+<sc-for list="{{lessons}}" as="l" hint-placeholder-count="3">
+<article style="border: 1px solid #DDE2EA; border-radius: 16px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; font-weight: 800; color: {{accent}}">{{l.n}}</span>
+<h4 style="margin: 0; font-size: 17px; font-weight: 800">{{l.title}}</h4>
+<p style="margin: 0; font-size: 15px; line-height: 1.55">{{l.body}}</p>
+</article>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{showPoints}}" hint-placeholder-val="{{ false }}">
+<div role="tabpanel" style="padding: 24px; display: flex; flex-direction: column; gap: 12px; min-height: 400px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 800">Points to Remember</h3>
+<sc-for list="{{points}}" as="pt" hint-placeholder-count="4">
+<div style="background: #F3F5F8; border-left: 4px solid {{accent}}; border-radius: 8px; padding: 12px 16px; font-size: 15px; line-height: 1.5">{{pt}}</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{showEval}}" hint-placeholder-val="{{ false }}">
+<div role="tabpanel" style="padding: 24px; display: flex; flex-direction: column; gap: 16px; min-height: 400px">
+<h3 style="margin: 0; font-size: 20px; font-weight: 800">Evaluation</h3>
+<div role="tablist" aria-label="Question types" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{etTabs}}" as="e" hint-placeholder-count="6">
+<button type="button" role="tab" aria-selected="{{e.on}}" onClick="{{e.go}}" style="{{e.style}}">{{e.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{etMcq}}" hint-placeholder-val="{{ true }}">
+<sc-for list="{{evalQs}}" as="q" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 15px; font-weight: 800">{{q.text}}</p>
+<sc-for list="{{q.options}}" as="o" hint-placeholder-count="4">
+<button type="button" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+</sc-for>
+<sc-if value="{{q.answered}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; font-weight: 600">{{q.feedback}}</p>
+</sc-if>
+</div>
+</sc-for>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="font-size: 15px; font-weight: 800">{{score}}</span>
+<button type="button" onClick="{{resetEval}}" style="min-height: 44px; padding: 0 20px; border-radius: 12px; border: 2px solid {{accent}}; background: #FFFFFF; color: #1B2430; font-size: 14px; font-weight: 800; cursor: pointer">Try again</button>
+</div>
+</sc-if>
+<sc-if value="{{etTF}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; color: #4B5563">Decide whether each statement is true or false.</p>
+<sc-for list="{{tfItems}}" as="t" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 15px; font-weight: 800">{{t.text}}</p>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{t.options}}" as="o" hint-placeholder-count="2">
+<button type="button" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+</sc-for>
+</div>
+<sc-if value="{{t.answered}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; font-weight: 600">{{t.feedback}}</p>
+</sc-if>
+</div>
+</sc-for>
+</sc-if>
+<sc-if value="{{etText}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; font-size: 14px; color: #4B5563">{{etIntro}}</p>
+<sc-for list="{{textItems}}" as="x" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-size: 15px; font-weight: 800">{{x.q}}</p>
+<sc-if value="{{x.isInput}}" hint-placeholder-val="{{ false }}">
+<input type="text" aria-label="Your answer" value="{{x.val}}" onInput="{{x.onType}}" placeholder="Your answer" style="min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+</sc-if>
+<sc-if value="{{x.isArea}}" hint-placeholder-val="{{ false }}">
+<textarea rows="{{x.rows}}" aria-label="Your answer" value="{{x.val}}" onInput="{{x.onType}}" placeholder="Write your answer here" style="box-sizing: border-box; padding: 12px 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px; font-family: inherit; resize: vertical"></textarea>
+</sc-if>
+<sc-if value="{{x.isFile}}" hint-placeholder-val="{{ false }}">
+<input type="file" accept="image/*" aria-label="Upload your drawing" onChange="{{x.onFile}}" style="font-size: 14px; min-height: 44px">
+<p style="margin: 0; font-size: 14px">{{x.fileName}}</p>
+</sc-if>
+<button type="button" onClick="{{x.reveal}}" style="align-self: flex-start; min-height: 44px; padding: 0 20px; border-radius: 12px; border: 2px solid {{accent}}; background: #FFFFFF; color: #1B2430; font-size: 14px; font-weight: 800; cursor: pointer">{{x.btn}}</button>
+<sc-if value="{{x.shown}}" hint-placeholder-val="{{ false }}">
+<p style="margin: 0; background: #F3F5F8; border-left: 4px solid {{accent}}; border-radius: 8px; padding: 12px 16px; font-size: 14px; line-height: 1.5">{{x.result}}</p>
+</sc-if>
+</div>
+</sc-for>
+</sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showChat}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column">
+<div aria-live="polite" style="height: 400px; overflow-y: auto; display: flex; flex-direction: column-reverse; gap: 12px; padding: 20px 24px">
+<sc-for list="{{messages}}" as="m" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column">
+<sc-if value="{{m.isAgent}}" hint-placeholder-val="{{ true }}">
+<div style="align-self: flex-start; max-width: 80%; background: #EEF1F6; padding: 12px 16px; border-radius: 4px 16px 16px 16px; font-size: 15px; line-height: 1.5">{{m.text}}</div>
+</sc-if>
+<sc-if value="{{m.isStudent}}" hint-placeholder-val="{{ false }}">
+<div style="align-self: flex-end; max-width: 80%; background: #1B2430; color: #FFFFFF; padding: 12px 16px; border-radius: 16px 4px 16px 16px; font-size: 15px; line-height: 1.5">{{m.text}}</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; padding: 0 24px 12px">
+<sc-for list="{{prompts}}" as="p" hint-placeholder-count="2">
+<button type="button" onClick="{{p.go}}" style="min-height: 44px; padding: 8px 16px; border-radius: 22px; border: 1px solid #B8C0CC; background: #FFFFFF; color: #1B2430; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left">{{p.q}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px; padding: 12px 24px 8px; border-top: 1px solid #DDE2EA">
+<label for="ask" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Ask your tutor</label>
+<input id="ask" type="text" value="{{draft}}" onInput="{{onDraft}}" onKeyDown="{{onKey}}" placeholder="Ask a question about this subject" style="flex: 1; min-width: 0; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<button type="button" onClick="{{send}}" style="min-height: 44px; padding: 0 22px; border-radius: 12px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 15px; font-weight: 800; cursor: pointer">Send</button>
+</div>
+<section aria-label="Course materials" style="border-top: 1px solid #DDE2EA; background: #F8F9FB; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h3 style="margin: 0; font-size: 17px; font-weight: 800">Teach {{agent}} with your own materials</h3>
+<p style="margin: 0; font-size: 14px; color: #4B5563">Add files, links or notes for {{name}}. {{agent}} will use them when answering.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="files" style="font-size: 14px; font-weight: 600">Upload files (PDF, Word, text, slides)</label>
+<input id="files" type="file" multiple="" accept=".pdf,.doc,.docx,.txt,.md,.ppt,.pptx" onChange="{{onFiles}}" style="font-size: 14px; min-height: 44px">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="link" style="font-size: 14px; font-weight: 600">Add a link (article, video, web page)</label>
+<div style="display: flex; gap: 8px">
+<input id="link" type="text" value="{{linkDraft}}" onInput="{{onLink}}" placeholder="https://" style="flex: 1; min-width: 0; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px">
+<button type="button" onClick="{{addLink}}" style="min-height: 44px; padding: 0 20px; border-radius: 12px; border: 2px solid {{accent}}; background: #FFFFFF; color: #1B2430; font-size: 14px; font-weight: 800; cursor: pointer">Add link</button>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="notes" style="font-size: 14px; font-weight: 600">Paste notes or a syllabus</label>
+<textarea id="notes" rows="3" value="{{noteDraft}}" onInput="{{onNote}}" placeholder="Paste class notes, key terms or exam topics" style="min-width: 0; box-sizing: border-box; padding: 12px 16px; border-radius: 12px; border: 1px solid #8A94A3; font-size: 15px; font-family: inherit; resize: vertical"></textarea>
+<button type="button" onClick="{{addNote}}" style="align-self: flex-start; min-height: 44px; padding: 0 20px; border-radius: 12px; border: 2px solid {{accent}}; background: #FFFFFF; color: #1B2430; font-size: 14px; font-weight: 800; cursor: pointer">Add notes</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<h4 style="margin: 0; font-size: 14px; font-weight: 800">{{agent}} has learned from</h4>
+<sc-if value="{{noMaterials}}" hint-placeholder-val="{{ true }}">
+<p style="margin: 0; font-size: 14px; color: #4B5563">Nothing added yet for {{name}}.</p>
+</sc-if>
+<sc-for list="{{materials}}" as="it" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 10px; background: #FFFFFF; border: 1px solid #DDE2EA; border-radius: 12px; padding: 8px 8px 8px 14px">
+<span style="font-size: 12px; font-weight: 800; background: #E4E8EF; color: #1B2430; border-radius: 8px; padding: 4px 8px">{{it.kind}}</span>
+<span style="flex: 1; min-width: 0; font-size: 14px; overflow-wrap: anywhere">{{it.name}}</span>
+<button type="button" onClick="{{it.remove}}" aria-label="Remove {{it.name}}" style="min-height: 44px; padding: 0 14px; border-radius: 10px; border: 0; background: transparent; color: #1B2430; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: underline">Remove</button>
+</div>
+</sc-for>
+</div>
+</section>
+<p style="margin: 0; padding: 12px 24px 16px; font-size: 12px; color: #4B5563">Demo: agent replies are scripted, and added materials are listed but not processed.</p>
+</div>
+</sc-if>
+</main>
+</div>
+</div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.defs = [
+      { id: 'math', name: 'Mathematics', agent: 'Euler', color: '#1F4FBF', blurb: 'Class 8: Linear Equations in One Variable.',
+        hi: 'Hi, I am Euler. Today we are working on linear equations in one variable.',
+        prompts: [
+          { q: 'How do I solve 2x + 3 = 11?', a: 'Do the same thing to both sides. Subtract 3 to get 2x = 8, then divide both sides by 2 to get x = 4. Check: 2(4) + 3 = 11. Want to try 3x − 5 = 10?' },
+          { q: 'How do I solve a word problem with an equation?', a: 'Let the unknown be x, turn each sentence into an equation, solve it, then check the answer against the story. Shall we try one together?' } ] },
+      { id: 'physics', name: 'Physics', agent: 'Newton', color: '#0B6B5F', blurb: 'Class 8: Force and Pressure.',
+        hi: 'Hello, I am Newton. Let us explore force and pressure.',
+        prompts: [
+          { q: 'What is pressure?', a: 'Pressure is the force acting on each unit of area, so pressure = force ÷ area. A smaller area gives more pressure for the same force. Why do you think a nail has a pointed tip?' },
+          { q: 'What are contact and non-contact forces?', a: 'Contact forces need touching, like friction or a push. Non-contact forces act at a distance, like gravity and magnetism. Can you think of another example of each?' } ] },
+      { id: 'lit', name: 'Literature', agent: 'Austen', color: '#8A2E5C', blurb: 'Class 8 English: the poem The Ant and the Cricket.',
+        hi: 'Welcome, I am Austen. Today we are reading the poem The Ant and the Cricket.',
+        prompts: [
+          { q: 'What is the moral of the poem?', a: 'The poem is based on a fable and shows the value of working and planning ahead instead of only enjoying the moment. What could the cricket have done differently?' },
+          { q: 'What is personification?', a: 'Personification gives human qualities to animals or objects. In the poem the ant and the cricket think, speak and act like people. Can you find another example in a story you know?' } ] },
+      { id: 'history', name: 'History', agent: 'Herodotus', color: '#8A4B0F', blurb: 'Class 8: How, When and Where.',
+        hi: 'Greetings, I am Herodotus. Today we ask how historians study the colonial period.',
+        prompts: [
+          { q: 'Why do dates matter in history?', a: 'Dates help us put events in order, but historians also ask what changed for ordinary people. Which is more useful to you, a date or the story behind it?' },
+          { q: 'Why is the Mill division of history questioned?', a: 'James Mill labelled Indian history as Hindu, Muslim and British periods. Historians say this uses religion alone and ignores the variety of Indian society. What other way could we divide the past?' } ] },
+      { id: 'science', name: 'Science', agent: 'Curie', color: '#B3261E', blurb: 'Class 8: Cell – Structure and Functions.',
+        hi: 'Hello, I am Curie. Today we explore the cell, the basic unit of life.',
+        prompts: [
+          { q: 'Who first saw cells?', a: 'Robert Hooke first observed cells in a thin slice of cork. He saw many small box-like units. What instrument do you think he used?' },
+          { q: 'How are plant and animal cells different?', a: 'Plant cells have a cell wall, chloroplasts and a large vacuole. Animal cells do not. Why might plants need chloroplasts?' } ] }
+    ];
+    const chats = {};
+    this.defs.forEach((d) => { chats[d.id] = [{ who: 'agent', text: d.hi }]; });
+    chats.math = chats.math.concat([
+      { who: 'student', text: 'Can you help me with equations?' },
+      { who: 'agent', text: 'Of course. Would you like to practise basic equations, variables on both sides, or word problems?' } ]);
+    const M = (text, o, a) => ({ text, o, a });
+    this.all = {
+      math: { objectives: ['Define a linear equation in one variable and solve it step by step.', 'Solve equations with the variable on both sides.', 'Form and solve equations from word problems.'],
+        lessons: [{ n: 'Lesson 1', title: 'Solving linear equations', body: 'A linear equation in one variable has one unknown with power 1, like 2x + 3 = 11. Do the same operation on both sides until the variable stands alone: subtract 3 to get 2x = 8, then divide by 2 to get x = 4.' }, { n: 'Lesson 2', title: 'Variables on both sides and word problems', body: 'Move all terms with the variable to one side and the numbers to the other. For example 5x − 2 = 3x + 8 gives 2x = 10 and x = 5. For word problems, let the unknown be x, write the statement as an equation, solve it, then check.' }],
+        points: ['Whatever you do to one side, do to the other.', 'Transposing a term changes its sign.', 'Always substitute your answer back to check it.'],
+        qs: [M('Solve 2x + 3 = 11.', ['x = 3', 'x = 4', 'x = 7', 'x = 14'], 1), M('Solve 5x − 2 = 3x + 8.', ['x = 2', 'x = 3', 'x = 5', 'x = 10'], 2)],
+        fill: [{ q: 'The solution of 3x = 21 is x = ___.', a: '7' }, { q: 'In 4x − 5 = 11, after transposing −5 we get 4x = ___.', a: '16' }],
+        tf: [{ text: 'x² + 1 = 5 is a linear equation in one variable.', a: false }, { text: 'Transposing a term to the other side changes its sign.', a: true }],
+        short: [{ q: 'What is a linear equation in one variable?', a: 'An equation with one variable whose highest power is 1, such as 2x + 3 = 11.' }, { q: 'Why do we check the solution?', a: 'To confirm that the value makes both sides equal.' }],
+        detail: [{ q: 'The sum of two consecutive numbers is 41. Form an equation and find the numbers.', a: 'Let the numbers be x and x + 1. Then x + (x + 1) = 41, so 2x = 40 and x = 20. The numbers are 20 and 21.' }],
+        diagram: [{ q: 'Draw a balance scale for 2x + 3 = 11 and show the steps to solve it.', a: 'a balance with 2x + 3 on one pan and 11 on the other, then 3 removed from both pans, then both halved, leaving x = 4.' }] },
+      physics: { objectives: ['Describe force as a push or a pull and name its effects.', 'Explain pressure as force per unit area.', 'Describe atmospheric pressure with everyday examples.'],
+        lessons: [{ n: 'Lesson 1', title: 'Force and its effects', body: 'A force is a push or a pull. It can start or stop motion, change speed or direction, or change the shape of an object. Forces can be contact forces like friction or non-contact forces like gravity and magnetism.' }, { n: 'Lesson 2', title: 'Pressure', body: 'Pressure is the force acting on each unit of area: pressure = force ÷ area, measured in pascals. A sharp knife cuts well because its small edge gives high pressure. Air around us also exerts atmospheric pressure.' }],
+        points: ['Force is measured in newtons (N).', 'Pressure = force ÷ area; its unit is the pascal (Pa).', 'The same force on a smaller area gives more pressure.'],
+        qs: [M('What is the SI unit of force?', ['Pascal', 'Newton', 'Joule', 'Watt'], 1), M('Why does a sharp knife cut better than a blunt one?', ['It uses more force only', 'A smaller area gives more pressure', 'It is heavier', 'It is cooler'], 1)],
+        fill: [{ q: 'Pressure is force divided by ___.', a: 'area' }, { q: 'Gravity is an example of a ___ force.', a: 'non-contact' }],
+        tf: [{ text: 'A force can change the shape of an object.', a: true }, { text: 'Atmospheric pressure acts only upwards.', a: false }],
+        short: [{ q: 'Define pressure.', a: 'The force acting per unit area.' }, { q: 'Name one contact force and one non-contact force.', a: 'Friction is a contact force; gravity or magnetic force is a non-contact force.' }],
+        detail: [{ q: 'Explain why a camel walks easily on sand while a person sinks.', a: 'A camel has broad feet, so its weight spreads over a large area and the pressure on the sand is small. A person has smaller feet, so more pressure acts on each part of the sand and the feet sink.' }],
+        diagram: [{ q: 'Draw a brick resting on three different faces and label which gives the most pressure.', a: 'the same weight arrow for each position, with the smallest face on the ground giving the greatest pressure.' }] },
+      lit: { objectives: ['Understand the story and moral of the poem The Ant and the Cricket.', 'Identify personification and contrast between the two characters.', 'Write a short paragraph giving the moral with a reason.'],
+        lessons: [{ n: 'Lesson 1', title: 'The story and its moral', body: 'The poem is based on a fable by Aesop. A cricket spends the summer singing and playing, while an ant works hard and stores food. The contrast shows the value of preparing ahead.' }, { n: 'Lesson 2', title: 'Literary devices', body: 'Personification gives human feelings and actions to animals, so the ant and the cricket speak and act like people. The poet uses contrast, work against play, to make the lesson clear.' }],
+        points: ['A fable is a short story with a moral.', 'Personification gives human qualities to non-human things.', 'Contrast highlights the differences between characters.'],
+        qs: [M('What is a fable?', ['A true story', 'A short story with a moral', 'A play', 'A biography'], 1), M('Giving human qualities to animals is called', ['Simile', 'Metaphor', 'Personification', 'Alliteration'], 2)],
+        fill: [{ q: 'A short story that teaches a lesson is called a ___.', a: 'fable' }, { q: 'In the poem the cricket spends the summer singing and ___.', a: 'playing' }],
+        tf: [{ text: 'Personification is used when animals speak like humans.', a: true }, { text: 'The moral of a story is its setting.', a: false }],
+        short: [{ q: 'What is the moral of the fable?', a: 'Prepare ahead and work in good time instead of waiting until trouble comes.' }, { q: 'What is personification?', a: 'Giving human qualities or actions to animals or objects.' }],
+        detail: [{ q: 'Write a paragraph on how the poet contrasts the ant and the cricket.', a: 'Begin with a claim that the ant and the cricket are opposites. Describe the ant as hard working and the cricket as carefree, then explain how this contrast teaches the importance of planning.' }],
+        diagram: [{ q: 'Draw a two-column chart comparing the ant and the cricket.', a: 'the headings Ant and Cricket, with hard work, saving and planning in one column and singing, playing and carelessness in the other.' }] },
+      history: { objectives: ['Explain why dates matter and how historians divide the past into periods.', 'Describe how James Mill divided Indian history and why this is questioned.', 'Name colonial sources such as surveys and the Census.'],
+        lessons: [{ n: 'Lesson 1', title: 'Dates and periods', body: 'Historians once saw history as a list of dates of kings and battles. Today they ask what changed for ordinary people. James Mill divided Indian history into Hindu, Muslim and British periods, but this is questioned because it ignores the variety of Indian society.' }, { n: 'Lesson 2', title: 'Colonial records', body: 'The British kept careful records such as revenue surveys, maps, the Census and official letters. They help us understand colonial rule, but they show the view of the rulers, so historians read them with care.' }],
+        points: ['James Mill wrote A History of British India.', 'Colonial records show the view of the rulers and must be read carefully.', 'Historians use many kinds of sources, not only dates.'],
+        qs: [M('Who divided Indian history into Hindu, Muslim and British periods?', ['Robert Clive', 'James Mill', 'Lord Dalhousie', 'William Jones'], 1), M('Which colonial record counted the population of India?', ['Land survey', 'Census', 'Official letters', 'Newspapers'], 1)],
+        fill: [{ q: 'James Mill wrote A History of ___ India.', a: 'British' }, { q: 'Colonial records show the view of the ___.', a: 'rulers' }],
+        tf: [{ text: 'Mill divided Indian history into Hindu, Muslim and British periods.', a: true }, { text: 'Colonial records show only the view of ordinary Indians.', a: false }],
+        short: [{ q: 'Why is the Mill division of history questioned?', a: 'It uses religion as the only basis for periods and ignores the variety of Indian society.' }, { q: 'Name two colonial sources used by historians.', a: 'Any two of the Census, surveys, maps, revenue records and official letters.' }],
+        detail: [{ q: 'Explain why historians should read colonial records with care.', a: 'The British wrote records to help them rule, so they show the colonial view and leave out many Indian voices. Historians compare them with other sources before drawing conclusions.' }],
+        diagram: [{ q: 'Draw a timeline showing the three periods used by James Mill.', a: 'a line divided into Hindu, Muslim and British periods, labelled as the division used by Mill.' }] },
+      science: { objectives: ['State that the cell is the basic unit of life.', 'Identify the cell membrane, cytoplasm and nucleus and their functions.', 'Compare plant and animal cells.'],
+        lessons: [{ n: 'Lesson 1', title: 'The cell as the unit of life', body: 'All living things are made of cells, first seen by Robert Hooke in a slice of cork. Some organisms are unicellular, like amoeba, and others are multicellular, like humans.' }, { n: 'Lesson 2', title: 'Parts of a cell', body: 'The cell membrane controls what enters and leaves. The cytoplasm holds the organelles, and the nucleus controls the cell and carries genetic material. Plant cells also have a cell wall, a large vacuole and chloroplasts.' }],
+        points: ['Robert Hooke first observed cells in cork.', 'The nucleus controls the activities of the cell.', 'Only plant cells have a cell wall and chloroplasts.'],
+        qs: [M('Who first observed cells?', ['Robert Hooke', 'Louis Pasteur', 'Charles Darwin', 'Isaac Newton'], 0), M('Which part controls the activities of the cell?', ['Cytoplasm', 'Cell membrane', 'Nucleus', 'Vacuole'], 2)],
+        fill: [{ q: 'The basic structural unit of life is the ___.', a: 'cell' }, { q: 'An organism made of a single cell, such as amoeba, is called ___.', a: 'unicellular' }],
+        tf: [{ text: 'Animal cells have a cell wall.', a: false }, { text: 'The cell membrane controls what enters and leaves the cell.', a: true }],
+        short: [{ q: 'What is the function of the nucleus?', a: 'It controls the activities of the cell and holds the genetic material.' }, { q: 'Name two differences between plant and animal cells.', a: 'Plant cells have a cell wall, chloroplasts and a large vacuole; animal cells do not.' }],
+        detail: [{ q: 'Describe the structure of a plant cell and the job of each main part.', a: 'Cell wall: gives shape and support. Cell membrane: controls entry and exit. Cytoplasm: holds the organelles. Nucleus: controls the cell. Vacuole: stores water and food. Chloroplasts: carry out photosynthesis.' }],
+        diagram: [{ q: 'Draw and label a plant cell and an animal cell.', a: 'cell membrane, cytoplasm, nucleus and vacuole in both, with the cell wall and chloroplasts only in the plant cell.' }] }
+    };
+    this.sci = this.all.science;
+    this.ex = this.all;
+    this.state = { page: 'home', prog: 'study', form: {}, err: '', sentP: false, sentR: false, active: 'math', draft: '', chats, mats: {}, linkDraft: '', noteDraft: '', sub: 'chat', ans: {}, etab: 'mcq', typed: {}, shown: {}, tf: {} };
+  }
+  ask(text) {
+    const t = (text || '').trim();
+    if (!t) return;
+    const d = this.defs.find((x) => x.id === this.state.active);
+    const hit = d.prompts.find((p) => p.q === t);
+    const reply = hit ? hit.a : 'Good question. Before I answer, tell me what you have tried so far and where you got stuck, and we will build from there.';
+    const chats = Object.assign({}, this.state.chats);
+    chats[d.id] = chats[d.id].concat([{ who: 'student', text: t }, { who: 'agent', text: reply }]);
+    this.setState({ chats, draft: '' });
+  }
+  addMats(items) {
+    if (!items.length) return;
+    const id = this.state.active;
+    const d = this.defs.find((x) => x.id === id);
+    const mats = Object.assign({}, this.state.mats);
+    mats[id] = (mats[id] || []).concat(items.map((i, n) => Object.assign({ key: Date.now() + '-' + n }, i)));
+    const chats = Object.assign({}, this.state.chats);
+    chats[id] = chats[id].concat([{ who: 'agent', text: 'Thanks, I have added ' + items.length + (items.length === 1 ? ' new item' : ' new items') + ' to my ' + d.name + ' materials. Ask me about them any time.' }]);
+    this.setState({ mats, chats });
+  }
+  renderVals() {
+    const cur = this.defs.find((x) => x.id === this.state.active);
+    const list = this.state.mats[cur.id] || [];
+    const isSci = cur.id === 'science';
+    this.sci = this.all[cur.id];
+    const ex = this.ex[cur.id];
+    const pg = this.state.page, f = this.state.form;
+    const fields = {};
+    ['name', 'email', 'msg', 'child', 'grade', 'pemail', 'program'].forEach((k) => {
+      fields['f_' + k] = f[k] || '';
+      fields['on_' + k] = (e) => this.setState({ form: Object.assign({}, this.state.form, { [k]: e.target.value }) });
+    });
+    const go = (p) => this.setState({ page: p, err: '' });
+    const navDefs = [['home', 'HOME', '#FFD23F'], ['about', 'ABOUT', '#7FD8BE'], ['programs', 'OUR PROGRAMS', '#A9C2FF'], ['parents', 'PARENTS', '#FF8A7A'], ['register', 'REGISTER', '#D9B8FF']];
+    const prog = this.state.prog;
+    const et = this.state.etab;
+    const typed = this.state.typed, shown = this.state.shown, tfa = this.state.tf;
+    const etDefs = [['mcq', 'Choose the Best answer'], ['fill', 'Fill in the blanks'], ['tf', 'State true or false'], ['short', 'Short Question and Answer'], ['detail', 'Answer in detail'], ['diagram', 'Diagrams']];
+    const intro = { fill: 'Type the missing word, then check your answer.', short: 'Write your answer, then compare it with the model answer.', detail: 'Write a full answer, then compare it with the model answer.', diagram: 'Draw on paper, upload a photo of your drawing, then check the labels.' };
+    const sel = (bd, bg) => 'display: block; min-height: 44px; padding: 8px 20px; border-radius: 12px; font-size: 15px; cursor: pointer; text-align: left; color: #1B2430; border: 2px solid ' + bd + '; background: ' + bg;
+    const sub = this.state.sub;
+    const ans = this.state.ans;
+    const tabDefs = [['chat', 'Ask ' + cur.agent], ['obj', 'Learning Objectives'], ['lessons', 'Detailed lessons'], ['points', 'Points to Remember'], ['eval', 'Evaluation']];
+    const answered = this.sci.qs.filter((q, i) => ans[i] !== undefined);
+    const right = answered.filter((q) => ans[this.sci.qs.indexOf(q)] === q.a).length;
+    return {
+      subjects: this.defs.map((d) => {
+        const on = d.id === this.state.active;
+        return { name: d.name, agent: d.agent, color: d.color, initial: d.name[0], pressed: on, blurb: d.blurb,
+          style: 'display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 10px 14px; border-radius: 16px; cursor: pointer; background: #FFFFFF; color: #1B2430; border: 2px solid ' + (on ? d.color : '#DDE2EA'),
+          pick: () => this.setState({ active: d.id, draft: '', sub: 'chat', ans: {}, etab: 'mcq', page: 'programs', prog: 'study' }) };
+      }),
+      accent: cur.color, agent: cur.agent, name: cur.name, blurb: cur.blurb,
+      messages: this.state.chats[cur.id].map((m) => ({ text: m.text, isAgent: m.who === 'agent', isStudent: m.who === 'student' })).reverse(),
+      prompts: cur.prompts.map((p) => ({ q: p.q, go: () => this.ask(p.q) })),
+      draft: this.state.draft,
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      onKey: (e) => { if (e.key === 'Enter') this.ask(this.state.draft); },
+      send: () => this.ask(this.state.draft),
+      linkDraft: this.state.linkDraft,
+      noteDraft: this.state.noteDraft,
+      onLink: (e) => this.setState({ linkDraft: e.target.value }),
+      onNote: (e) => this.setState({ noteDraft: e.target.value }),
+      onFiles: (e) => {
+        const fs = Array.from(e.target.files || []);
+        this.addMats(fs.map((f) => ({ kind: 'File', name: f.name + ' (' + Math.max(1, Math.round(f.size / 1024)) + ' KB)' })));
+        e.target.value = '';
+      },
+      addLink: () => {
+        const v = this.state.linkDraft.trim();
+        if (!v) return;
+        this.setState({ linkDraft: '' });
+        this.addMats([{ kind: 'Link', name: v }]);
+      },
+      addNote: () => {
+        const v = this.state.noteDraft.trim();
+        if (!v) return;
+        this.setState({ noteDraft: '' });
+        this.addMats([{ kind: 'Notes', name: v.length > 80 ? v.slice(0, 80) + '…' : v }]);
+      },
+      showTabs: true, showChat: sub === 'chat', showObj: sub === 'obj', showLessons: sub === 'lessons', showPoints: sub === 'points', showEval: sub === 'eval',
+      tabs: tabDefs.map((t) => {
+        const on = t[0] === sub;
+        return { label: t[1], on, go: () => this.setState({ sub: t[0] }),
+          style: 'min-height: 44px; padding: 0 18px; border-radius: 22px; font-size: 14px; font-weight: 800; cursor: pointer; border: 2px solid ' + cur.color + '; background: ' + (on ? cur.color : '#FFFFFF') + '; color: ' + (on ? '#FFFFFF' : '#1B2430') };
+      }),
+      objectives: this.sci.objectives, lessons: this.sci.lessons, points: this.sci.points,
+      evalQs: this.sci.qs.map((q, qi) => {
+        const picked = ans[qi];
+        const done = picked !== undefined;
+        return { text: (qi + 1) + '. ' + q.text, answered: done,
+          feedback: done ? (picked === q.a ? 'Correct.' : 'Not quite. The correct answer is ' + q.o[q.a] + '.') : '',
+          options: q.o.map((label, oi) => {
+            let bd = '#B8C0CC', bg = '#FFFFFF';
+            if (done && oi === q.a) { bd = '#1E7B3C'; bg = '#E3F4E8'; }
+            else if (done && oi === picked) { bd = '#B3261E'; bg = '#FBE6E4'; }
+            return { label, style: 'display: block; width: 100%; text-align: left; min-height: 44px; padding: 8px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; color: #1B2430; border: 2px solid ' + bd + '; background: ' + bg,
+              pick: () => { if (!done) this.setState({ ans: Object.assign({}, ans, { [qi]: oi }) }); } };
+          }) };
+      }),
+      score: answered.length ? 'Score: ' + right + ' of ' + this.sci.qs.length + ' correct' : 'Answer the questions to see your score',
+      resetEval: () => this.setState({ ans: {} }),
+      etMcq: et === 'mcq', etTF: et === 'tf', etText: et !== 'mcq' && et !== 'tf', etIntro: intro[et] || '',
+      etTabs: etDefs.map((t) => { const on = t[0] === et; return { label: t[1], on, go: () => this.setState({ etab: t[0] }),
+        style: 'min-height: 44px; padding: 0 14px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; border: 2px solid ' + cur.color + '; background: ' + (on ? cur.color : '#FFFFFF') + '; color: ' + (on ? '#FFFFFF' : '#1B2430') }; }),
+      tfItems: (ex.tf || []).map((it, i) => {
+        const key = cur.id + '-tf-' + i, picked = tfa[key], done = picked !== undefined;
+        return { text: (i + 1) + '. ' + it.text, answered: done,
+          feedback: done ? (picked === it.a ? 'Correct.' : 'Not quite. The statement is ' + (it.a ? 'true' : 'false') + '.') : '',
+          options: [true, false].map((v) => {
+            let bd = '#B8C0CC', bg = '#FFFFFF';
+            if (done && v === it.a) { bd = '#1E7B3C'; bg = '#E3F4E8'; } else if (done && v === picked) { bd = '#B3261E'; bg = '#FBE6E4'; }
+            return { label: v ? 'True' : 'False', style: sel(bd, bg), pick: () => { if (!done) this.setState({ tf: Object.assign({}, tfa, { [key]: v }) }); } };
+          }) };
+      }),
+      textItems: (ex[et] || []).map((it, i) => {
+        const key = cur.id + '-' + et + '-' + i, val = typed[key] || '';
+        const fill = et === 'fill', dia = et === 'diagram';
+        return { q: (i + 1) + '. ' + it.q, isInput: fill, isArea: et === 'short' || et === 'detail', isFile: dia, rows: et === 'detail' ? 6 : 2, val,
+          onType: (e) => this.setState({ typed: Object.assign({}, typed, { [key]: e.target.value }) }),
+          onFile: (e) => { const f = e.target.files && e.target.files[0]; this.setState({ typed: Object.assign({}, typed, { [key]: f ? f.name : '' }) }); },
+          fileName: dia && val ? 'Selected: ' + val : '',
+          btn: fill ? 'Check answer' : (dia ? 'Show labels to check' : 'Show model answer'),
+          reveal: () => this.setState({ shown: Object.assign({}, shown, { [key]: true }) }),
+          shown: !!shown[key],
+          result: fill ? (val.trim().toLowerCase() === it.a.toLowerCase() ? 'Correct.' : 'Not quite. The answer is ' + it.a + '.') : (dia ? 'Check that your drawing includes: ' : 'Model answer: ') + it.a };
+      }),
+      ...fields,
+      showHome: pg === 'home', showAbout: pg === 'about', showParents: pg === 'parents', showRegister: pg === 'register',
+      showApp: pg === 'programs' && prog === 'study', showWinter: pg === 'programs' && prog === 'winter', showProgNav: pg === 'programs',
+      navItems: navDefs.map((n) => { const on = n[0] === pg; return { label: n[1], on, go: () => go(n[0]),
+        style: 'min-height: 44px; padding: 0 18px; border-radius: 22px; font-size: 14px; font-weight: 800; cursor: pointer; color: #1B2430; background: ' + n[2] + '; border: 2px solid ' + (on ? '#1B2430' : 'transparent') + '; box-shadow: ' + (on ? '0 3px 0 #1B2430' : 'none') }; }),
+      progTabs: [['study', 'Study Room'], ['winter', 'Winter Break']].map((t) => { const on = t[0] === prog; return { label: t[1], on, go: () => this.setState({ prog: t[0] }),
+        style: 'min-height: 44px; padding: 0 16px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; border: 2px solid #1B2430; background: ' + (on ? '#FFD23F' : '#FFFFFF') + '; color: #1B2430' }; }),
+      start: () => this.setState({ page: 'programs', prog: 'study' }),
+      goHome: () => go('home'),
+      goRegister: () => go('register'),
+      err: this.state.err, hasErr: !!this.state.err,
+      showFormP: !this.state.sentP, showThanksP: this.state.sentP, showFormR: !this.state.sentR, showThanksR: this.state.sentR,
+      sendP: () => { if (!f.name || !f.email || !f.msg) { this.setState({ err: 'Please fill in all fields.' }); return; } this.setState({ sentP: true, err: '' }); },
+      sendR: () => { if (!f.child || !f.grade || !f.program || !f.pemail) { this.setState({ err: 'Please fill in all fields.' }); return; } this.setState({ sentR: true, err: '' }); },
+      noMaterials: list.length === 0,
+      materials: list.map((i) => ({ kind: i.kind, name: i.name, remove: () => {
+        const mats = Object.assign({}, this.state.mats);
+        mats[cur.id] = (mats[cur.id] || []).filter((x) => x.key !== i.key);
+        this.setState({ mats });
+      } }))
+    };
+  }
+}
+</script>
+</body>
+</html>
